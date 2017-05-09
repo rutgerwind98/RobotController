@@ -10,5 +10,5 @@ package robotcontrol;
  * @author Rutger
  */
 public class StatusRobots {
-    
+    //a;sdfljas;dlkfj
 }

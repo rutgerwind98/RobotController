@@ -10,5 +10,5 @@ package robotcontrol;
  * @author Rutger
  */
 public class Locatie {
-    
+    //asfdasdf
 }
