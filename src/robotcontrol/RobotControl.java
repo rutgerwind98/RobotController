@@ -16,6 +16,7 @@ public class RobotControl {
      */
     public static void main(String[] args) {
         System.out.println("test code lalallaalla");
+        System.out.println("as je nou je hesses gebruik...");
     }
     
 }
