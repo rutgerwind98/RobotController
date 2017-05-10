@@ -10,5 +10,24 @@ package robotcontrol;
  * @author Rutger
  */
 public class Bewegen {
+    private int snelheid;
+    private String richting;
+
+    public int getSnelheid() {
+        return snelheid;
+    }
+
+    public void setSnelheid(int snelheid) {
+        this.snelheid = snelheid;
+    }
+
+    public String getRichting() {
+        return richting;
+    }
+
+    public void setRichting(String richting) {
+        this.richting = richting;
+    }
+    
     
 }

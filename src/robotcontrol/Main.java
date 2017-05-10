@@ -5,18 +5,29 @@
  */
 package robotcontrol;
 
+import java.awt.FlowLayout;
+import javax.swing.JFrame;
+
 /**
  *
  * @author Rutger
  */
+
+
+
 public class Main {
 
     /**
      * @param args the command line arguments
      */
+    
+    
+    
     public static void main(String[] args) {
+        
         System.out.println("test code lalallaalla");
         System.out.println("as je nou je hesses gebruik...");
+        
     }
     
 }
