@@ -29,9 +29,9 @@ public class StatusRobots extends Application{
     private ArrayList<String> ingepaktArtikelenLijst = new ArrayList<String>();
 
     //hier begint het scherm
+    //http://docs.oracle.com/javafx/2/get_started/form.htm handige site
     public void start(Stage primaireRobotStatus){
         primaireRobotStatus.setTitle("Robot Status");
-        //http://docs.oracle.com/javafx/2/get_started/form.htm handige site
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10); //set de breedte van het gat tussen twee collummen.
@@ -42,11 +42,11 @@ public class StatusRobots extends Application{
         Scene scene = new Scene(grid, 300, 275); //zet de scene hoogte en breedte.
         primaireRobotStatus.setScene(scene);
         
-        Label labeltje = new Label("status inpakrobot: ");
-        grid.add(labeltje, 0 ,1);
+        Label inpakstat = new Label("status inpakrobot: " + getStatus());
+        grid.add(inpakstat, 0 ,0);
         
-        Label
-        
+        Label laadstat = new Label("status laadrobot: " + getStatus());
+        grid.add(laadstat, 1, 0);
         primaireRobotStatus.show();
     }
     
@@ -73,10 +73,6 @@ public class StatusRobots extends Application{
 
     public ArrayList<String> getIngepaktArtikelenLijst() {
         return ingepaktArtikelenLijst;
-    }
-    
-    public static void main(String args[]){
-        launch();
     }
     
     

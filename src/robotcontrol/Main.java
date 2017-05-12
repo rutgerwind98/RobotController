@@ -5,8 +5,7 @@
  */
 package robotcontrol;
 
-import java.awt.FlowLayout;
-import javax.swing.JFrame;
+import javafx.application.Application;
 
 /**
  *
@@ -26,6 +25,7 @@ public class Main {
     public static void main(String[] args) {
         
         System.out.println("test code lalallaalla");
+        Application.launch(StatusRobots.class, args);  //start de gui voor de classe status robot
         System.out.println("as je nou je hesses gebruik...");
         
     }
