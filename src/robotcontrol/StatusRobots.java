@@ -19,7 +19,7 @@ import javafx.scene.layout.*;
  *
  * @author Rutger
  */
-public class StatusRobots extends Application{
+public class StatusRobots{
     private boolean statusrobot;
     private int aantalDozen;
     
@@ -28,27 +28,13 @@ public class StatusRobots extends Application{
     private ArrayList<String> volgordeArtikelenLijst = new ArrayList<String>();
     private ArrayList<String> ingepaktArtikelenLijst = new ArrayList<String>();
 
+    StatusRobots(boolean b) {
+        statusrobot = b;
+    }
+
     //hier begint het scherm
     //http://docs.oracle.com/javafx/2/get_started/form.htm handige site
-    public void start(Stage primaireRobotStatus){
-        primaireRobotStatus.setTitle("Robot Status");
-        GridPane grid = new GridPane();
-        grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10); //set de breedte van het gat tussen twee collummen.
-        grid.setVgap(10); //set de hoogte van het gat tussen twee rijen.
-        grid.setPadding(new Insets(25,25,25,25)); //padding zodat wanneer het 
-        //scherm kleiner wordt gemaakt, het er nog redelijk uit ziet
-        
-        Scene scene = new Scene(grid, 300, 275); //zet de scene hoogte en breedte.
-        primaireRobotStatus.setScene(scene);
-        
-        Label inpakstat = new Label("status inpakrobot: " + getStatus());
-        grid.add(inpakstat, 0 ,0);
-        
-        Label laadstat = new Label("status laadrobot: " + getStatus());
-        grid.add(laadstat, 1, 0);
-        primaireRobotStatus.show();
-    }
+    
     
     
     public void toonRoute(){
@@ -58,7 +44,8 @@ public class StatusRobots extends Application{
     public boolean getStatus() {
         return statusrobot;
     }
-
+    
+   
     public int getAantalDozen() {
         return aantalDozen;
     }

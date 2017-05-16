@@ -10,11 +10,15 @@ package robotcontrol;
  * @author Rutger
  */
 public class Magazijn {
-    private final int breedte = 5;// hier hoeft geen getter/setter contructor
-    private final int hoogte = 5; //  omdat deze waarde niet zal veranderen
+    private  int breedte;// hier hoeft geen getter/setter contructor
+    private  int hoogte; //  omdat deze waarde niet zal veranderen
     
-    public long getGrootte(){
-        //returned de oppervlakte van het magazijn
-        return breedte * hoogte; 
+    public void Magazijn(int breedte,int hoogte){
+        this.breedte = breedte;
+        this.hoogte = hoogte;
+    }
+    
+    public int getMagazijn(){
+        return breedte * hoogte;
     }
 }
