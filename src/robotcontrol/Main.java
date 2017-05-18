@@ -23,12 +23,9 @@ public class Main {
     /**
      * @param args the command line arguments
      */ 
-    private static XMLReader xmllezer;
-    
     
     public static void main(String[] args) {
-        System.out.println("lees xml");
-        xmllezer.XMLLezen();
+        
         System.out.println("pre launch");
         Application.launch(Scherm.class, args);  //start de gui voor de classe status robot
         System.out.println("post launch");

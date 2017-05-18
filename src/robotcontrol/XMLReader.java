@@ -31,10 +31,11 @@ public class XMLReader {
     static Order order;
     
     
-    public static void XMLLezen(){
-     //public static void main(String args[]){   
+    public static Order XMLLezen(String bestand){
+     //public static void main(String args[]){ 
+        order = new Order();
         try {
-            File fXmlFile = new File("/Users/Rutger/Desktop/bestelling.xml");
+            File fXmlFile = new File(bestand);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(fXmlFile);
@@ -43,14 +44,14 @@ public class XMLReader {
             //normalize zorgt ervoor dat als dingen over meerder regels getypt zijn ze
             //alsnog bij elkaar komen als ze in het zelfde element zitten.
             
-            System.out.println("Root element: " + doc.getDocumentElement().getNodeName());
+            System.out.println("\nRoot element: " + doc.getDocumentElement().getNodeName());
             NodeList nList = doc.getElementsByTagName("bestelling");
             
             System.out.println("-----------");
             
             for (int temp = 0; temp < nList.getLength(); temp++){
                 Node nNode = nList.item(temp);
-                System.out.println("\nCurrentElement : " + nNode.getNodeName());
+                System.out.println("CurrentElement : " + nNode.getNodeName());
                 
                 if(nNode.getNodeType() == Node.ELEMENT_NODE){
                     Element eElement = (Element) nNode;
@@ -81,5 +82,7 @@ public class XMLReader {
         } catch (IOException | ParserConfigurationException | DOMException | SAXException ex) {
             Logger.getLogger(XMLReader.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        return order;
     }
 }
