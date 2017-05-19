@@ -32,34 +32,10 @@ public class StatusRobots{
         statusrobot = b;
     }
 
-    //hier begint het scherm
-    //http://docs.oracle.com/javafx/2/get_started/form.htm handige site
     
-    
-    
-    public void toonRoute(){
-        //toont de route die uiteindelij door het TSP is bepaald.
-    }
     
     public boolean getStatus() {
         return statusrobot;
-    }
-    
-   
-    public int getAantalDozen() {
-        return aantalDozen;
-    }
-
-    public ArrayList<String> getArtikelenLijst() {
-        return artikelenLijst;
-    }
-
-    public ArrayList<String> getVolgordeArtikelenLijst() {
-        return volgordeArtikelenLijst;
-    }
-
-    public ArrayList<String> getIngepaktArtikelenLijst() {
-        return ingepaktArtikelenLijst;
     }
     
     

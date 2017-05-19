@@ -11,17 +11,17 @@ package robotcontrol;
  */
 public class Artikel {
     private int artikelnr;
-    private int hoogte;   
+    private int grootte;   
     
     public void Artikel(int artikelnr){
         this.artikelnr = artikelnr;
     }
     
-    public void Artikel(int artikelnr, int hoogte){
+    public void Artikel(int artikelnr, int grootte){
         this.artikelnr = artikelnr;
-        this.hoogte = hoogte;
+        this.grootte = grootte;
     }
-    public int getHoogte(){
-        return hoogte;
+    public int getGrootte(){
+        return grootte;
     }
 }

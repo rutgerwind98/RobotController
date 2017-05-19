@@ -7,6 +7,7 @@
 package robotcontrol;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 
 /**
@@ -15,10 +16,12 @@ import java.util.ArrayList;
  */
 public class Order {
 
-    private int ordernummer;
-    private String artikelnummer;
+    private Artikel artikel;
+    private int artikelGrootte;
     private ArrayList<Doos> doosLijst = new ArrayList<Doos>();
     ArrayList<String> artikelLijst = new ArrayList<>();
+    ArrayList<Artikel>database = new ArrayList<>();
+    Random rand = new Random();
 
     public Order() {
 
@@ -38,5 +41,15 @@ public class Order {
             returnstring += artikelLijst.get(i) + "\n";
         }
         return returnstring;
+    }
+    public ArrayList<String> getArtLijst(){
+        return artikelLijst;
+    }
+    
+    public void maakArtikelen(){
+        for(int i =0; i<artikelLijst.size(); i++){
+            artikelGrootte = rand.nextInt(11); //zet de grootte van het artikel van 1 t/m 10
+            
+        }
     }
 }
