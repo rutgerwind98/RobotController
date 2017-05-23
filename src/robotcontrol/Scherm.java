@@ -7,55 +7,60 @@
 package robotcontrol;
 
 import javafx.geometry.*;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import java.io.File;
 import java.util.ArrayList;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.event.*;
 import javafx.geometry.Insets;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
+import javafx.scene.*;
+import javafx.scene.canvas.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
+import javafx.scene.paint.Paint;
+import javafx.stage.*;
 
 /**
  *
  * @author Rutger
  */
 public class Scherm extends Application{
+    private Doos doos = new Doos();
+    private Order order = new Order();
+    private static XMLReader xmllezer;
+    private XMLReader xmlObj = new XMLReader();
+    private Artikel artikel = new Artikel();
+    private FirstFitDecreasing FFDalgoritme = new FirstFitDecreasing();
     
     private String inpakStat;
     private String laadStat;
     private String xmlbestand = "";
     private Label artikelen;
-    private ArrayList<String> artikelLijst = new ArrayList<>();
+    private ArrayList<Artikel> artikelLijst = xmlObj.getLijst();
     
     StatusRobots inpakBot = new StatusRobots(true);
     StatusRobots laadBot = new StatusRobots(false);
-    
-    private Order order = new Order();
-    private static XMLReader xmllezer;
     
     public  String getXmlBestand(){
         return this.xmlbestand;
     }
     //hier begint het scherm
     //http://docs.oracle.com/javafx/2/get_started/form.htm handige site
+
+    /**
+     *
+     * @param schermStage
+     */
+    @Override
     public void start(Stage schermStage){
         schermStage.setTitle("Robot Controller");
         GridPane grid = new GridPane();
-        grid.setAlignment(Pos.TOP_CENTER);
+        grid.setAlignment(Pos.CENTER);
         grid.setHgap(10); //set de breedte van het gat tussen twee collummen.
         grid.setVgap(10); //set de hoogte van het gat tussen twee rijen.
         grid.setPadding(new Insets(0)); //padding zodat wanneer het 
         //scherm kleiner wordt gemaakt, het er nog redelijk uit ziet  
-        //grid.setGridLinesVisible(true); //VOOR DEBUGGING
+        grid.setGridLinesVisible(true); //VOOR DEBUGGING
         
         Group doosGroep = new Group();
         Canvas dooscanvas = new Canvas(420,325);//#blazeit
@@ -77,6 +82,7 @@ public class Scherm extends Application{
         
         tekenMagazijn(gc);
         tekenDozen(gfxc);
+        
 
         if(inpakBot.getStatus()){
             inpakStat = "aan";
@@ -98,23 +104,28 @@ public class Scherm extends Application{
         
         artikelen = new Label();
         final Button openButton = new Button("Importeer Order");
-        openButton.setOnAction(
-            new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(final ActionEvent e) {
-                    configureFileChooser(fileChooser);
-                    File file = fileChooser.showOpenDialog(null);
-                    if (file != null) {
-                        System.out.println(file);
-                        xmlbestand = file.toString();
-                        System.out.println("lees xml");
-                        order = xmllezer.XMLLezen(xmlbestand);
-                        artikelen.setText("Artikelen: \n" + order.getArtikelen());
-                        schuifKaas(gc);
-                        System.out.println("xml lezen klaar -- artikelen weergeven...");
-                    }
-                }
-            });
+        openButton.setOnAction((final ActionEvent e) -> {
+            configureFileChooser(fileChooser);
+            File file = fileChooser.showOpenDialog(null);
+            if (file != null) {
+                System.out.println(file);
+                xmlbestand = file.toString();
+                System.out.println("lees xml");
+                xmllezer.XMLLezen(xmlbestand);
+                order = FFDalgoritme.run(artikelLijst);
+                
+                System.out.println("xml lezen klaar -- artikelen weergeven...");
+                artikelen.setText("Artikelnr.:  Grootte: \n" + stringLijst());
+                
+                System.out.println("nummers weergegeven \n" + stringLijst());
+                    schuifKaas(gc);
+                System.out.println("magazijn weergegeven");
+                    tekenDoosArt(gfxc);
+                System.out.println("artikelen bij dozen weergegeven");
+                
+                
+            }
+        });
         
         grid.add(openButton, 0, 1);
         grid.add(artikelen, 1, 1);
@@ -166,37 +177,36 @@ public class Scherm extends Application{
     //schuifKaas kijkt welke artikelen in de arraylist zitten en geeft vervolgens de juiste
     //coordinaten mee naar tekenArtikel
     private void schuifKaas(GraphicsContext gc){
-        artikelLijst = order.getArtLijst();
         for (int i = 0; i < artikelLijst.size(); i++) {
-            String item = artikelLijst.get(i);
+            int item = artikelLijst.get(i).getArtikelnr();
             switch(item){
                 // over het algmeen kan er een marge van 80 pixels worden aangehouden tussen de hokjes.
                 // dit moet overigens nog wel een beetje gecorrigeerd worden 
                 //omdat de lijnen een oneven dikte hebben van 5 px.
                 //bovenste rij
-                case "1": tekenArtikel(gc,19,19); break;
-                case "2": tekenArtikel(gc,98,19); break;
-                case "3": tekenArtikel(gc,176,19); break;
-                case "4": tekenArtikel(gc,255,19); break;
-                case "5": tekenArtikel(gc,333,19); break;
+                case 1: tekenArtikel(gc,19,19); break;
+                case 2: tekenArtikel(gc,98,19); break;
+                case 3: tekenArtikel(gc,176,19); break;
+                case 4: tekenArtikel(gc,255,19); break;
+                case 5: tekenArtikel(gc,333,19); break;
                 //tweede rij
-                case "6": tekenArtikel(gc,19,98); break;
-                case "7": tekenArtikel(gc,98,98); break;
-                case "8": tekenArtikel(gc,176,98); break;
-                case "9": tekenArtikel(gc,255,98); break;
-                case "10": tekenArtikel(gc,333,98); break;
+                case 6: tekenArtikel(gc,19,98); break;
+                case 7: tekenArtikel(gc,98,98); break;
+                case 8: tekenArtikel(gc,176,98); break;
+                case 9: tekenArtikel(gc,255,98); break;
+                case 10: tekenArtikel(gc,333,98); break;
                 //derde rij
-                case "11": tekenArtikel(gc,19,174); break;
-                case "12": tekenArtikel(gc,98,174); break;
-                case "13": tekenArtikel(gc,176,174); break;
-                case "14": tekenArtikel(gc,255,174); break;
-                case "15": tekenArtikel(gc,333,174); break;
+                case 11: tekenArtikel(gc,19,174); break;
+                case 12: tekenArtikel(gc,98,174); break;
+                case 13: tekenArtikel(gc,176,174); break;
+                case 14: tekenArtikel(gc,255,174); break;
+                case 15: tekenArtikel(gc,333,174); break;
                 //vierde rij
-                case "16": tekenArtikel(gc,19,255); break;
-                case "17": tekenArtikel(gc,98,255); break;
-                case "18": tekenArtikel(gc,176,255); break;
-                case "19": tekenArtikel(gc,255,255); break;
-                case "20": tekenArtikel(gc,333,255); break;
+                case 16: tekenArtikel(gc,19,255); break;
+                case 17: tekenArtikel(gc,98,255); break;
+                case 18: tekenArtikel(gc,176,255); break;
+                case 19: tekenArtikel(gc,255,255); break;
+                case 20: tekenArtikel(gc,333,255); break;
             }
         }
     }
@@ -208,6 +218,47 @@ public class Scherm extends Application{
         gfxc.strokeRect(105, 5, 95, 225);
         gfxc.strokeRect(205, 5, 95, 225);
         gfxc.strokeRect(305, 5, 95, 225);
+        
+        
+    }
+    
+    private void tekenDoosArt(GraphicsContext gfxc){
+        int modifier = 23;
+        gfxc.setFill(Color.ORANGE);
+/*        for (int i = 0; i < artikelLijst.size(); i++) {
+            int x = (i * 46) + 5;
+            int h = artikelLijst.get(i).getGrootte() * 7;
+            gfxc.fillRect(x,240,45,h);
+        }*/
+
+        System.out.println(order);
+        int nummerVanDoos = 0;
+        for(Doos ds : order.getLijst()){
+            int volheid = 0;
+            for(Artikel art: ds.getArtikelLijst()){
+                int grootte = art.getGrootte();
+                gfxc.setFill(getColor(1.0 - (double)art.getGrootte() / (double)10));
+                gfxc.fillRect(5 + 100 * nummerVanDoos, 230 - volheid * modifier - grootte * modifier, 95, grootte * modifier);
+                gfxc.strokeLine(5 + 100 * nummerVanDoos, 230 - volheid * modifier - grootte * modifier, 5 + 100 * nummerVanDoos+ 95, 230 - volheid * modifier - grootte * modifier);
+                volheid += grootte;
+            }
+            nummerVanDoos++;
+        }
+    }
+    private String stringLijst(){
+        String returnString = "";
+        for(int i = 0; i<artikelLijst.size();i++){
+            returnString += artikelLijst.get(i).getArtikelnr() + " ----------- " + artikelLijst.get(i).getGrootte() + "\n";
+        }
+        return returnString;
+    }
+
+    private Color getColor(double d) {
+        double H = d*150;
+        double S = 0.9;
+        double B = 0.9;
+        
+        return Color.hsb((float) H, (float) S, (float) B);
     }
     
     

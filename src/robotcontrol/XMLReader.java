@@ -8,6 +8,8 @@ package robotcontrol;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
@@ -26,7 +28,12 @@ import org.xml.sax.SAXException;
  */
 public class XMLReader {
     private static int aantalArtikelen;
-    //private static String tempArt = " ";
+    private static int willekeur = 0;
+    private static ArrayList<Artikel> artikelen = new ArrayList<>();
+    
+    private static Random rand = new Random();
+    private static Doos doos = new Doos();
+    private static Artikel artikel = new Artikel();
     
     static Order order;
     
@@ -56,6 +63,7 @@ public class XMLReader {
                 if(nNode.getNodeType() == Node.ELEMENT_NODE){
                     Element eElement = (Element) nNode;
                     
+                    //haalt alles op met de tag artikelnr en geeft het aantal door aan aantalArtikelen
                     NodeList artikelLijst = doc.getElementsByTagName("artikelnr");
                     aantalArtikelen = artikelLijst.getLength();
                     
@@ -65,15 +73,8 @@ public class XMLReader {
                             + eElement.getElementsByTagName("datum").item(0).getTextContent());
                     
                     for(int i = 0; i < aantalArtikelen; i++){
-                        
-                        String tempArt = eElement.getElementsByTagName("artikelnr").item(i).getTextContent();
-                        
-                        System.out.println("artikelnr: " + tempArt);
-                        try{                     
-                            order.voegArtikelToe(tempArt);
-                        }catch(Exception e){
-                            System.out.println(e);
-                        }
+                        int tempArt = Integer.parseInt(eElement.getElementsByTagName("artikelnr").item(i).getTextContent());
+                        voegToe(i,tempArt);
                     }
                     
                 }
@@ -84,5 +85,13 @@ public class XMLReader {
         }
         
         return order;
+    }
+    private static void voegToe(int index,int nummer){
+        willekeur = rand.nextInt(10)+1;
+        artikelen.add(index,new Artikel(nummer,willekeur));
+        System.out.println("artikelnr: " + nummer + "grootte: " + willekeur);
+    }
+    public ArrayList getLijst(){
+        return artikelen;
     }
 }

@@ -7,9 +7,6 @@
 package robotcontrol;
 
 import javafx.application.Application;
-import javafx.scene.Node;
-import javafx.scene.control.Label;
-import robotcontrol.XMLReader;
 
 /**
  *
